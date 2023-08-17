@@ -7,7 +7,7 @@ class UserController{
             const users = await User.find()
             !users ? res.status(500).json('Nenhum usuários cadastrado') : res.json(users)
         } catch (error) {
-            return res.status(500).json(error,'Error interno')
+            return res.status(500).json(error,'Server Error internal')
         }
     }
 
@@ -30,7 +30,24 @@ class UserController{
 
 
         } catch (error) {
-            
+            return res.status(500).json(error,'Server Error internal')
+
+        }
+    }
+
+    async showUser (req,res){
+        try {
+            const {id} = req.params;
+            const {email, password} = req.body;
+            const user = await User.findById(id);
+
+            if (!user) {
+            return res.json('Usuário inexistente');
+            }
+            return res.status(200).json(user)
+
+        } catch (error) {
+            return res.status(500).json(error,'Server Error internal')
         }
     }
 
@@ -47,11 +64,12 @@ class UserController{
             return res.status(200).json(user);
 
         } catch (error) {
-            
+            return res.status(500).json(error,'Server Error internal')
         }
     }
 
-    async delete (req,res){
+    async delUser (req,res){
+      try {
         const {id} = req.params
 
         const userDelete = await User.findById(id)
@@ -60,6 +78,9 @@ class UserController{
         }
         await userDelete.deleteOne()
         return res.json(userDelete)
+      } catch (error) {
+        return res.status(500).json(error,'Server Error internal')
+      }
     }
 }
 

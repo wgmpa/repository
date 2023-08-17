@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 
 import userRoutes from './routes/userRoutes';
+import repositoryRoutes from './routes/repositoryRoutes'
 
 //database
 import './database/index'
@@ -20,6 +21,7 @@ class App {
 
     router(){
      this.server.use(userRoutes)
+     this.server.use(repositoryRoutes)
     }
 }
 
